@@ -1,3 +1,3 @@
-module github.com/Jesbr/pokedexcli
+module github.com/bootdotdev/pokedexcli
 
 go 1.25.6
