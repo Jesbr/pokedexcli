@@ -1,5 +1,7 @@
 package main
-import "testing"
+import (
+	"testing"
+)
 
 func TestCleanInput(t *testing.T) {
     cases := []struct {
