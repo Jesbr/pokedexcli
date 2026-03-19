@@ -29,5 +29,11 @@ func commandCatch(cfg *config, args ...string) error {
 	fmt.Println("You may now inspect it with the inspect command.")
 
 	cfg.caughtPokemon[pokemon.Name] = pokemon
+
+	if len(cfg.team) < 6 {
+		teamAdd(cfg, pokemon.Name)
+	} else {
+		fmt.Printf("%s was sent to PC.\n", pokemon.Name)
+	}
 	return nil
 }
