@@ -15,6 +15,12 @@ type config struct {
 	prevLocationsURL *string
 	caughtPokemon    map[string]pokeapi.Pokemon
 	team             []pokeapi.Pokemon
+	location         currentLocation
+}
+
+type currentLocation struct {
+	name    string
+	pokemon []string
 }
 
 func startRepl(cfg *config) {
@@ -106,6 +112,11 @@ func getCommands() map[string]cliCommand {
 			name:        "team <add/remove/list>",
 			description: "Manage your Pokemon team",
 			callback:    commandTeam,
+		},
+		"location": {
+			name:        "location <current/tbd>",
+			description: "Shows current location information",
+			callback:    commandLocation,
 		},
 	}
 }

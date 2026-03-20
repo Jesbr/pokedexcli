@@ -2,19 +2,30 @@ package main
 
 import (
 	"errors"
+	"slices"
 	"fmt"
 	"math/rand"
 )
 
 func commandCatch(cfg *config, args ...string) error {
+	if cfg.location.name == "" {
+		return errors.New("You must explore an area first")
+	}
 	if len(args) != 1 {
-		return errors.New("you must provide a pokemon name")
+		return errors.New("You must provide a pokemon name")
 	}
 
 	name := args[0]
 	pokemon, err := cfg.pokeapiClient.GetPokemon(name)
 	if err != nil {
 		return err
+	}
+
+	// cfg.location.name
+	// cfg.location.pokemon
+	if !slices.Contains(cfg.location.pokemon, pokemon.Name) {
+		fmt.Printf("'%s' not in %s.\n", pokemon.Name, cfg.location.name)
+		return nil
 	}
 
 	res := rand.Intn(pokemon.BaseExperience)

@@ -15,10 +15,14 @@ func commandExplore(cfg *config, args ...string) error {
 	if err != nil {
 		return err
 	}
+	cfg.location.name = location.Name
+	cfg.location.pokemon = cfg.location.pokemon[:0]
+
 	fmt.Printf("Exploring %s...\n", location.Name)
 	fmt.Println("Found Pokemon: ")
 	for _, enc := range location.PokemonEncounters {
 		fmt.Printf(" - %s\n", enc.Pokemon.Name)
+		cfg.location.pokemon = append(cfg.location.pokemon, enc.Pokemon.Name)
 	}
 	return nil
 }
