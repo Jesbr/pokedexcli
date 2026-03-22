@@ -24,6 +24,7 @@ type currentLocation struct {
 }
 
 func startRepl(cfg *config) {
+	getIntroduction(cfg)
 	reader := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Print("Pokedex > ")
