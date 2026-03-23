@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
 func commandTeam(cfg *config, args ...string) error {
@@ -20,7 +19,7 @@ func commandTeam(cfg *config, args ...string) error {
 
 	case "remove":
 		if len(args) != 2 {
-			return fmt.Errorf("usage: team remove <index>")
+			return fmt.Errorf("usage: team remove <pokemon>")
 		}
 		return teamRemove(cfg, args[1])
 
@@ -54,23 +53,28 @@ func teamAdd(cfg *config, name string) error {
 	return nil
 }
 
-func teamRemove(cfg *config, indexStr string) error {
-	index, err := strconv.Atoi(indexStr)
-	if err != nil {
-		return fmt.Errorf("invalid index")
+func teamRemove(cfg *config, name string) error {
+	index := -1
+	for i, p := range cfg.team {
+		if p.Name == name {
+			index = i
+			break
+		}
 	}
 
-	if index < 1 || index > len(cfg.team) {
-		return fmt.Errorf("index out of range")
+	if index == -1 {
+		fmt.Printf("'%s' not in current team\n", name)
+		return nil
 	}
 
-	// convert to 0-based index
-	i := index - 1
-	removed := cfg.team[i]
+	if len(cfg.team) == 1 {
+		return fmt.Errorf("cannot have an empty team")
+	}
 
-	cfg.team = append(cfg.team[:i], cfg.team[i+1:]...)
+	// pokemon removal
+	cfg.team = append(cfg.team[:index], cfg.team[index+1:]...)
 
-	fmt.Printf("%s removed from your team\n", removed.Name)
+	fmt.Printf("%s removed from your team\n", name)
 	return nil
 }
 
